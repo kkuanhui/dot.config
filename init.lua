@@ -25,6 +25,20 @@ local plugins = {
 				"nvim-treesitter/nvim-treesitter", 
 				build = ":TSUpdate"
 		},
+		{
+				"nvim-neo-tree/neo-tree.nvim",
+				branch = "v3.x",
+				dependencies = {
+						"nvim-lua/plenary.nvim",
+						"nvim-tree/nvim-web-devicons", -- not strictly required, but recommended
+						"MunifTanjim/nui.nvim",
+						-- "3rd/image.nvim", -- Optional image support in preview window: See `# Preview Mode` for more information
+				},
+				window = {
+						position="left",
+						width= 20,
+				}
+		}
 }
 
 local opts = {}
@@ -62,4 +76,35 @@ vim.cmd("set noswapfile")
 vim.cmd("set autoindent")
 
 -- general seting
-vim.g.mapleader = "`"
+
+-- key map
+vim.keymap.set('n', '<leader>n', '<cmd>Neotree toggle<cr>', {desc = 'toggle neotree'})
+
+
+-- buffers
+-- vim.keymap.set("n", "<S-h>", "<cmd>bprevious<cr>", { desc = "Prev buffer" })
+-- vim.keymap.set("n", "<S-l>", "<cmd>bnext<cr>", { desc = "Next buffer" })
+vim.keymap.set("n", "[b", "<cmd>bprevious<cr>", { desc = "Prev buffer" })
+vim.keymap.set("n", "]b", "<cmd>bnext<cr>", { desc = "Next buffer" })
+--vim.keymap.set("n", "<leader>bb", "<cmd>e #<cr>", { desc = "Switch to Other Buffer" })
+--vim.keymap.set("n", "<leader>`", "<cmd>e #<cr>", { desc = "Switch to Other Buffer" })
+
+-- windows manipulation
+vim.keymap.set("n", "<leader>ww", "<C-W>p", { desc = "Other window", remap = true })
+vim.keymap.set("n", "<leader>wd", "<C-W>c", { desc = "Delete window", remap = true })
+vim.keymap.set("n", "<leader>w-", "<C-W>s", { desc = "Split window below", remap = true })
+vim.keymap.set("n", "<leader>w|", "<C-W>v", { desc = "Split window right", remap = true })
+vim.keymap.set("n", "<leader>-", "<C-W>s", { desc = "Split window below", remap = true })
+vim.keymap.set("n", "<leader>|", "<C-W>v", { desc = "Split window right", remap = true })
+
+-- control action
+vim.keymap.set("n", "<C-h>", "<C-w>h", { desc = "Go to left  window", remap = true })
+vim.keymap.set("n", "<C-j>", "<C-w>j", { desc = "Go to lower window", remap = true })
+vim.keymap.set("n", "<C-k>", "<C-w>k", { desc = "Go to upper window", remap = true })
+vim.keymap.set("n", "<C-l>", "<C-w>l", { desc = "Go to right window", remap = true })
+
+-- Resize window using <ctrl> arrow keys
+vim.keymap.set("n", "<C-8>", "<cmd>resize +2<cr>", { desc = "Increase window height" })
+vim.keymap.set("n", "<C-2>", "<cmd>resize -2<cr>", { desc = "Decrease window height" })
+vim.keymap.set("n", "<C-4>", "<cmd>vertical resize -2<cr>", { desc = "Decrease window width" })
+vim.keymap.set("n", "<C-6>", "<cmd>vertical resize +2<cr>", { desc = "Increase window width" })
