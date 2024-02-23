@@ -1,5 +1,7 @@
 -- check if lazy was installed or download it.
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+-- if there is lazy module stored at lazypath. fs_stat(laztpath) would returns true.
+-- if module lazy is not there. Clone it.
 if not vim.loop.fs_stat(lazypath) then
 		vim.fn.system({
 				"git",
@@ -10,12 +12,17 @@ if not vim.loop.fs_stat(lazypath) then
 				lazypath,
 		})
 end
+-- runtimepath prepend lazypath
 vim.opt.rtp:prepend(lazypath)
 
 -- load lazy
 -- all plugin will be installed in {root}/.local/share/nvim/lazy/
 local plugins = {
-		{ "catppuccin/nvim", name = "catppuccin", priority = 1000 },
+		{ 
+				"catppuccin/nvim", 
+				name = "catppuccin", 
+				priority = 1000 
+		},
 		{ 
 				"nvim-telescope/telescope.nvim", 
 				tag = "0.1.5", 
@@ -46,11 +53,12 @@ local opts = {}
 require("lazy").setup(plugins, opts)
 
 local builtin = require("telescope.builtin")
-vim.keymap.set('n', '<C-p>', builtin.find_files, {})
+vim.keymap.set('n', '<C-p>', builtin.find_files, {desc = "to find files"})
+vim.keymap.set('n', '<C-b>', builtin.buffers, {desc = "to find buffers"})
 
 local config = require("nvim-treesitter.configs")
 config.setup({
-		ensure_installed = {"lua", "javascript", "python", "c", "cpp"},
+		ensure_installed = {"lua", "javascript", "python", "c", "cpp", "css", "markdown", "json", "html"},
 		highlight = { enable = true },
 		indent = { enable = true },
 })
