@@ -21,7 +21,22 @@ local plugins = {
 		{ 
 				"catppuccin/nvim", 
 				name = "catppuccin", 
-				priority = 1000 
+				priority = 1000,
+				config = function()
+						require("catppuccin").setup {
+								color_overrides = {
+										all = {
+														base = "#000000",
+										},
+								},
+								custom_highlights = function(colors)
+										return {
+												LineNr = { fg = '#737373' },
+												Comment = {fg = '#adadad'}
+										}
+								end
+						}
+				end
 		},
 		{ 
 				"nvim-telescope/telescope.nvim", 
@@ -44,7 +59,22 @@ local plugins = {
 				window = {
 						position="left",
 						width= 40,
-				}
+				},
+				config = function()
+						require('neo-tree').setup({
+								filesystem = {
+										filtered_items = {
+            hide_dotfiles = false,
+            hide_gitignored = false,
+										},
+										never_show = { 
+												-- remains hidden even if visible is toggled to true, this overrides always_show
+												".DS_Store",
+												"thumbs.db"
+										},
+								}
+						})
+				end
 		},
 		{
 				'windwp/nvim-autopairs',
@@ -81,7 +111,15 @@ local plugins = {
 				version = "*", -- Use for stability; omit to use `main` branch for the latest features
 				event = "VeryLazy",
 		},
-
+		{
+				'akinsho/bufferline.nvim', 
+				version = "*", 
+				dependencies = 'nvim-tree/nvim-web-devicons',
+				config = function()
+						vim.opt.termguicolors = true
+						require("bufferline").setup{}
+				end
+		},
 }
 
 local opts = {}
@@ -139,3 +177,4 @@ vim.keymap.set("n", "˚", "<cmd>resize +2<cr>", { desc = "Increase window height
 vim.keymap.set("n", "∆", "<cmd>resize -2<cr>", { desc = "Decrease window height" })
 vim.keymap.set("n", "˙", "<cmd>vertical resize -2<cr>", { desc = "Decrease window width" })
 vim.keymap.set("n", "¬", "<cmd>vertical resize +2<cr>", { desc = "Increase window width" })
+
