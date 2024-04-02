@@ -178,3 +178,5 @@ vim.keymap.set("n", "∆", "<cmd>resize -2<cr>", { desc = "Decrease window heigh
 vim.keymap.set("n", "˙", "<cmd>vertical resize -2<cr>", { desc = "Decrease window width" })
 vim.keymap.set("n", "¬", "<cmd>vertical resize +2<cr>", { desc = "Increase window width" })
 
+vim.api.nvim_set_keymap('n', '<leader>b', ":lua require('config/telescope').my_buffer()<cr>", {noremap = true})
+
