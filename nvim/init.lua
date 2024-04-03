@@ -133,6 +133,10 @@ local plugins = {
 			require("bufferline").setup{}
 		end
 	},
+ {
+		'mg979/vim-visual-multi', 
+		branch = "master"
+		}
 }
 
 local opts = {}
@@ -142,6 +146,7 @@ require("lazy").setup(plugins, opts)
 local builtin = require("telescope.builtin")
 vim.keymap.set('n', '<C-p>', builtin.find_files, {desc = "to find files"})
 vim.keymap.set('n', '<C-b>', builtin.buffers, {desc = "to find buffers"})
+-- vim.keymap.set('n', '<C-t>', builtin.tabs, {desc = "to find tabs"})
 
 local config = require("nvim-treesitter.configs")
 config.setup({
