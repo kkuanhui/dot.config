@@ -158,8 +158,10 @@ config.setup({
 -- load catppuccin
 vim.cmd.colorscheme "catppuccin-mocha"
 
--- with vim.cmd() I can use vim command in lua.
+-- language
+vim.cmd("lan mes ja_JP")
 
+-- with vim.cmd() I can use vim command in lua.
 -- line number
 vim.cmd("set number")
 vim.cmd("set relativenumber")             
