@@ -59,6 +59,25 @@ local plugins = {
 				end
 		},
 		{
+			'LukasPietzschmann/telescope-tabs',
+			config = function()
+				require('telescope').load_extension 'telescope-tabs'
+				require('telescope-tabs').setup {
+						close_tab_shortcut_i = '<C-d>', 
+						close_tab_shortcut_n = 'D',    
+						show_preview = true,
+						entry_ordinal = function(tab_id, buffer_ids, file_names, file_paths, is_current)
+							return table.concat(file_names, ' ')
+						end,
+						entry_formatter = function(tab_id, buffer_ids, file_names, file_paths, is_current)
+							local entry_string = table.concat(file_names, ', ')
+							return string.format('%d: %s%s', tab_id, entry_string, is_current and ' <' or '')
+						end,
+				}
+			end,
+			dependencies = { 'nvim-telescope/telescope.nvim' },
+		},
+		{
 				"nvim-treesitter/nvim-treesitter", 
 				build = ":TSUpdate"
 		},
@@ -213,5 +232,8 @@ vim.keymap.set("n", "˚", "<cmd>resize +2<cr>", { desc = "Increase window height
 vim.keymap.set("n", "∆", "<cmd>resize -2<cr>", { desc = "Decrease window height" })
 vim.keymap.set("n", "˙", "<cmd>vertical resize -2<cr>", { desc = "Decrease window width" })
 vim.keymap.set("n", "¬", "<cmd>vertical resize +2<cr>", { desc = "Increase window width" })
+
+-- show telescope tab
+vim.keymap.set("n", "<c-t>", "<cmd>Telescope telescope-tabs list_tabs<cr>", {desc = "Show telescope tab"})
 
 vim.api.nvim_set_keymap('n', '<leader>b', ":lua require('config/telescope').my_buffer()<cr>", {noremap = true})
