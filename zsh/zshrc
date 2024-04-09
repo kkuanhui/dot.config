@@ -15,3 +15,5 @@ alias tl="tmux ls"
 alias ll="ls -a -ll"
 
 export PGDATABASE=herokumirror
+
+eval "$(direnv hook zsh)"
