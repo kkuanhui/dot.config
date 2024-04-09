@@ -1,0 +1,17 @@
+export PATH=/usr/local/bin:$PATH
+export HEROKU_PSQL="postgres://owgwirupcpzjmb:b1a558ee24398b622425d965174cf52e27c2c2aa727179a4ed05928ddf9891f2@ec2-54-174-15-122.compute-1.amazonaws.com:5432/d17ckovb2vo9ah"
+
+alias cls="clear"
+
+function parse_git_branch() {
+    git branch 2> /dev/null | sed -n -e 's/^\* \(.*\)/[\1]/p'
+}
+setopt PROMPT_SUBST
+
+export PROMPT='🔥 %F{226}%K{000}%n 🚀 %F{012}%K{000}: %F{127}%K{000}%~ %F{39}%K{000}$(parse_git_branch)%F{007}%K{000}$ %F{015}%K{000}'
+
+alias ta="tmux attach"
+alias tl="tmux ls"
+alias ll="ls -a -ll"
+
+export PGDATABASE=herokumirror
