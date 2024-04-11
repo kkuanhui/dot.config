@@ -170,6 +170,14 @@ local plugins = {
 		{
 				'mg979/vim-visual-multi', 
 				branch = "master"
+		},
+		{
+    'numToStr/Comment.nvim',
+    opts = {},
+    lazy = false,
+				config = function()
+						require('Comment').setup()
+				end
 		}
 }
 
