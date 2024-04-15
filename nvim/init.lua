@@ -45,6 +45,9 @@ local plugins = {
 				config = function()
 						require("telescope").setup{
 								defaults = {
+										file_ignore_patterns = {
+												"node_modules"
+										},
 										mappings = {
 												n = {
 														['<c-d>'] = require('telescope.actions').delete_buffer
@@ -230,6 +233,8 @@ vim.keymap.set('n', '<leader>n', '<cmd>NERDTree<cr>', {desc = 'toggle neotree'})
 -- buffers
 vim.keymap.set("n", "[b", "<cmd>bprevious<cr>", { desc = "Prev buffer" })
 vim.keymap.set("n", "]b", "<cmd>bnext<cr>", { desc = "Next buffer" })
+vim.keymap.set("n", "[t", "<cmd>tabprevious<cr>", { desc = "Prev tab" })
+vim.keymap.set("n", "]t", "<cmd>tabnext<cr>", { desc = "Next tab" })
 
 -- windows manipulation
 vim.keymap.set("n", "<leader>w|", "<C-W>s", { desc = "Split window below", remap = true })
