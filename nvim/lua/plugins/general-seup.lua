@@ -143,7 +143,7 @@ return{
 				end
 		},
 		{
-				'akinsho/bufferline.nvim', 
+				'akinsho/bufferline.nvim',
 				version = "*", 
 				dependencies = 'nvim-tree/nvim-web-devicons',
 				config = function()
@@ -152,15 +152,7 @@ return{
 				end
 		},
 		{
-				'mg979/vim-visual-multi', 
+				'mg979/vim-visual-multi',
 				branch = "master"
 		},
-		{
-				'numToStr/Comment.nvim',
-				opts = {},
-				lazy = false,
-				config = function()
-						require('Comment').setup()
-				end
-		}
 }

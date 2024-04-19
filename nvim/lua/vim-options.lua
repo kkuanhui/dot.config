@@ -38,7 +38,7 @@ vim.cmd("set clipboard+=unnamedplus")
 -- general seting
 -- key map
 -- vim.keymap.set('n', '<leader>n', '<cmd>Neotree toggle<cr>', {desc = 'toggle neotree'})
-vim.keymap.set('n', '<leader>n', '<cmd>NERDTree<cr>', {desc = 'toggle neotree'})
+vim.keymap.set('n', '<leader>n', '<cmd>NERDTreeToggle<cr>', {desc = 'toggle neotree'})
 
 -- buffers
 vim.keymap.set("n", "[b", "<cmd>bprevious<cr>", { desc = "Prev buffer" })
@@ -60,3 +60,4 @@ vim.keymap.set("n", "¬", "<cmd>vertical resize +2<cr>", { desc = "Increase wind
 vim.keymap.set("n", "<c-t>", "<cmd>Telescope telescope-tabs list_tabs<cr>", {desc = "Show telescope tab"})
 
 vim.api.nvim_set_keymap('n', '<leader>b', ":lua require('config/telescope').my_buffer()<cr>", {noremap = true})
+vim.cmd("autocmd VimEnter * NERDTree")

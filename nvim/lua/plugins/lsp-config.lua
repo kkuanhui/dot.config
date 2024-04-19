@@ -1,5 +1,4 @@
--- learn from this video: https://www.youtube.com/watch?v=S-xzYgTLVJE
-
+-- learn from typecraft lsp series
 return {
 		{
 				"williamboman/mason.nvim",
