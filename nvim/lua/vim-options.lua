@@ -60,4 +60,4 @@ vim.keymap.set("n", "¬", "<cmd>vertical resize +2<cr>", { desc = "Increase wind
 vim.keymap.set("n", "<c-t>", "<cmd>Telescope telescope-tabs list_tabs<cr>", {desc = "Show telescope tab"})
 
 vim.api.nvim_set_keymap('n', '<leader>b', ":lua require('config/telescope').my_buffer()<cr>", {noremap = true})
-vim.cmd("autocmd VimEnter * NERDTree | wincmd l")
+vim.cmd("autocmd VimEnter * if &filetype !=# 'gitcommit' | NERDTree | wincmd l | endif")
