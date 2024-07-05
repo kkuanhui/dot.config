@@ -13,8 +13,8 @@ alias ta="tmux attach"
 alias tl="tmux ls"
 alias ll="ls -a -ll"
 
-export LC_ALL=en_IN.UTF-8
-export LANG=en_IN.UTF-8
+export LANG=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
 
 export PGDATABASE=herokumirror
 

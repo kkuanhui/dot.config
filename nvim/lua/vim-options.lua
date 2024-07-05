@@ -1,3 +1,6 @@
+vim.cmd("set encoding=utf-8")
+vim.cmd("set fileencoding=utf-8")
+
 local builtin = require("telescope.builtin")
 vim.keymap.set('n', '<C-p>', builtin.find_files, {desc = "to find files"})
 vim.keymap.set('n', '<C-b>', builtin.buffers, {desc = "to find buffers"})
