@@ -55,8 +55,9 @@ return {
 			null_ls.setup({
 				sources = {
 					null_ls.builtins.formatting.stylua, -- formatter "stylua" is required. install using Mason
-					require("none-ls.diagnostics.eslint"), -- imported from dependencies
-					require("none-ls.formatting.eslint_d"), -- imported from dependencies
+					require("none-ls.diagnostics.eslint"), -- imported from dependency none-ls-extras
+					require("none-ls.formatting.eslint"), -- imported from dependency none-ls-extras
+					require("none-ls.code_actions.eslint"), -- imported from dependency none-ls-extras
 				},
 			})
 			vim.keymap.set("n", "=", ":lua vim.lsp.buf.format()<CR>", { noremap = true, silent = true })
