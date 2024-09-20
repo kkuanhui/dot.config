@@ -23,3 +23,5 @@ eval "$(direnv hook zsh)"
 if [ -f ~/.config/zsh/zshrc_secrets ]; then
 		source ~/.config/zsh/zshrc_secrets
 fi
+
+export PATH="$HOME/.rbenv/shims:$PATH"
