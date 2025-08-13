@@ -25,3 +25,5 @@ if [ -f ~/.config/zsh/zshrc_secrets ]; then
 fi
 
 export PATH="$HOME/.rbenv/shims:$PATH"
+
+export PATH="$(brew --prefix python)/libexec/bin:$PATH"

@@ -34,15 +34,22 @@ return {
 			local lspconfig = require("lspconfig")
 			masonLC.setup({
 				ensure_installed = { "lua_ls", "ts_ls" },
+				headers = {
+					function(language_server_name)
+						lspconfig[language_server_name].setup({
+							capabilities = capabilities,
+						})
+					end,
+				},
 			})
-			masonLC.setup_handlers({
-				-- loop through all installed language server then bind each into nvim by using "lspconfig"
-				function(language_server_name)
-					lspconfig[language_server_name].setup({
-						capabilities = capabilities,
-					})
-				end,
-			})
+			-- masonLC.setup_handlers({
+			-- 	-- loop through all installed language server then bind each into nvim by using "lspconfig"
+			-- 	function(language_server_name)
+			-- 		lspconfig[language_server_name].setup({
+			-- 			capabilities = capabilities,
+			-- 		})
+			-- 	end,
+			-- })
 		end,
 	},
 
@@ -50,6 +57,7 @@ return {
 		-- wrap non-lsp commond lins tools, such as "eslint", to become generalized lsp
 		"nvimtools/none-ls.nvim", -- null-ls seems deprecated. none-ls is an alternative
 		lazy = false,
+		commit = "HEAD", -- Force latest
 		config = function()
 			local null_ls = require("null-ls")
 			null_ls.setup({
