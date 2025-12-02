@@ -12,6 +12,9 @@ export PROMPT='🔥 %F{226}%K{000}%n 🚀 %F{012}%K{000}: %F{127}%K{000}%~ %F{39
 alias ta="tmux attach"
 alias tl="tmux ls"
 alias ll="ls -a -ll"
+alias lg="lazygit"
+
+alias brew='env PATH="${PATH//$(pyenv root)\/shims:/}" brew'
 
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
@@ -27,4 +30,11 @@ fi
 export PATH="$HOME/.rbenv/shims:$PATH"
 export PATH="$HOME/.local/share/nvim/mason/bin:$PATH"
 export PATH="$(brew --prefix openjdk)/bin:$PATH"
+
+export PYENV_ROOT="$HOME/.pyenv"
+[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init - zsh)"
+
+
+
 export HOMEBREW_NO_AUTO_UPDATE=1
