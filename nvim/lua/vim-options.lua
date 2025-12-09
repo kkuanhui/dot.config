@@ -107,9 +107,4 @@ end)
 vim.keymap.set("n", "<c-t>", "<cmd>Telescope telescope-tabs list_tabs<cr>", { desc = "Show telescope tab" })
 
 vim.api.nvim_set_keymap('n', '<leader>b', ":lua require('config/telescope').my_buffer()<cr>", { noremap = true })
-vim.api.nvim_create_user_command("Q", function()
-  vim.cmd("bd")  -- kill buffer
-  vim.cmd("q")   -- quit window
-end, {})
-
 vim.cmd("autocmd VimEnter * if &filetype !=# 'gitcommit' | NERDTree | wincmd l | endif")
