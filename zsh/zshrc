@@ -22,6 +22,8 @@ export LC_ALL=en_US.UTF-8
 export PGDATABASE=herokumirror
 
 eval "$(direnv hook zsh)"
+# ruby 
+eval "$(rbenv init - zsh)"
 
 if [ -f ~/.config/zsh/zshrc_secrets ]; then
 		source ~/.config/zsh/zshrc_secrets

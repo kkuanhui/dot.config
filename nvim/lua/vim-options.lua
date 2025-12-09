@@ -53,6 +53,7 @@ vim.cmd("set clipboard+=unnamedplus")
 -- vim.keymap.set('n', '<leader>n', '<cmd>Neotree toggle<cr>', {desc = 'toggle neotree'})
 vim.keymap.set('n', '<leader>n', '<cmd>NERDTreeToggle<cr>', { desc = 'toggle neotree' })
 
+
 -- buffers
 vim.keymap.set("n", "[b", "<cmd>bprevious<cr>", { desc = "Prev buffer" })
 vim.keymap.set("n", "]b", "<cmd>bnext<cr>", { desc = "Next buffer" })
@@ -69,9 +70,46 @@ vim.keymap.set("n", "∆", "<cmd>resize -2<cr>", { desc = "Decrease window heigh
 vim.keymap.set("n", "˙", "<cmd>vertical resize -2<cr>", { desc = "Decrease window width" })
 vim.keymap.set("n", "¬", "<cmd>vertical resize +2<cr>", { desc = "Increase window width" })
 
+-- Do exact search and forward search using "?"
+vim.keymap.set("n", "?", function()
+  -- Prompt the user for a pattern to search
+  local pattern = vim.fn.input("?")
+  if pattern ~= "" then
+    -- 1. Construct the whole-word search pattern: \<pattern\>
+    local whole_word_pattern = "\\<" .. pattern .. "\\>"
+    -- 2. Construct the search command
+    local search_cmd = "/" .. whole_word_pattern
+    -- 3. Use pcall to execute the command safely
+    local status, err_msg = pcall(vim.cmd, search_cmd)
+    -- 4. Check if the command failed (i.e., E486 Pattern not found)
+    if not status then
+      -- The error message often includes "Vim:E486", indicating the pattern wasn't found.
+      -- Construct the custom message
+      local display_msg = "Pattern not found: ".. pattern ..""
+      -- Display the custom message using vim.notify() with the ERROR log level
+      -- This makes the message red and transient without interrupting the user.
+      vim.notify(display_msg, vim.log.levels.ERROR, { title = "Search" })
+    end
+  end
+end, { noremap = true, desc = "Forward, custom-error whole-word search" })
+
+-- Modify "*" search behavior
+vim.keymap.set("x", "*", function()
+  vim.cmd('normal! y')
+  local text = vim.fn.getreg('"')
+  text = vim.fn.escape(text, "/\\.*$^~[]")
+  vim.fn.setreg('/', text)
+  vim.opt.hlsearch = true
+end)
+
 
 -- show telescope tab
 vim.keymap.set("n", "<c-t>", "<cmd>Telescope telescope-tabs list_tabs<cr>", { desc = "Show telescope tab" })
 
 vim.api.nvim_set_keymap('n', '<leader>b', ":lua require('config/telescope').my_buffer()<cr>", { noremap = true })
+vim.api.nvim_create_user_command("Q", function()
+  vim.cmd("bd")  -- kill buffer
+  vim.cmd("q")   -- quit window
+end, {})
+
 vim.cmd("autocmd VimEnter * if &filetype !=# 'gitcommit' | NERDTree | wincmd l | endif")
