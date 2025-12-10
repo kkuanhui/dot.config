@@ -12,7 +12,7 @@ export PROMPT='🔥 %F{226}%K{000}%n 🚀 %F{012}%K{000}: %F{127}%K{000}%~ %F{39
 alias ta="tmux attach"
 alias tl="tmux ls"
 alias ll="ls -a -ll"
-alias lg="lazygit"
+alias lg="lazygit -ucd ~/.config/lazygit/config.yml"
 
 alias brew='env PATH="${PATH//$(pyenv root)\/shims:/}" brew'
 
