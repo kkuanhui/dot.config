@@ -1,9 +1,10 @@
 lastupdatecheck: 0
 recentrepos:
     - /Users/kuanhuiwu/.config
+    - /Users/kuanhuiwu/GitHub/trackit
     - /Users/kuanhuiwu/GitHub/w9999gold
 startuppopupversion: 5
-didshowhunkstaginghint: false
+didshowhunkstaginghint: true
 lastversion: 0.56.0
 customcommandshistory: []
 hidecommandlog: false
