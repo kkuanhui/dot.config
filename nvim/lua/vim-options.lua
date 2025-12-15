@@ -64,8 +64,9 @@ vim.keymap.set("n", "]t", "<cmd>tabnext<cr>", { desc = "Next tab" })
 vim.keymap.set("n", "<leader>w|", "<C-W>s", { desc = "Split window below", remap = true })
 vim.keymap.set("n", "<leader>w_", "<C-W>v", { desc = "Split window right", remap = true })
 
--- split window at the right side
+-- alter split window direction
 vim.opt.splitright = true
+vim.opt.splitbelow = true
 
 -- Resize window using <ctrl> arrow keys
 vim.keymap.set("n", "˚", "<cmd>resize +2<cr>", { desc = "Increase window height" })
