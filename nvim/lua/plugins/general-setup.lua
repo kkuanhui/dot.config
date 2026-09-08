@@ -5,76 +5,26 @@ return {
     priority = 1000,
     config = function()
       require("catppuccin").setup({
+        flavour = "mocha",
         color_overrides = {
           all = {
             base = "#000000",
           },
         },
+        integrations = {
+          neotree = true, -- 讓 Neo-tree 自動套用與主視窗一致的背景色
+        },
         custom_highlights = function(colors)
           return {
+            NeoTreeNormal = { bg = colors.base },
+            NeoTreeNormalNC = { bg = colors.base },
             LineNr = { fg = "#737373" },
             Comment = { fg = "#adadad" },
           }
         end,
       })
+      vim.cmd.colorscheme("catppuccin-mocha")
     end,
-  },
-  {
-    "nvim-telescope/telescope.nvim",
-    tag = "0.1.5",
-    dependencies = { "nvim-lua/plenary.nvim" },
-    config = function()
-      require("telescope").setup({
-        defaults = {
-          file_ignore_patterns = {
-            "node_modules",
-          },
-          mappings = {
-            n = {
-              ["<c-d>"] = require("telescope.actions").delete_buffer,
-            }, -- n
-            i = {
-              ["<C-h>"] = "which_key",
-              ["<c-d>"] = require("telescope.actions").delete_buffer,
-            },
-          },
-        },
-      })
-    end,
-  },
-  {
-    "LukasPietzschmann/telescope-tabs",
-    config = function()
-      require("telescope").load_extension("telescope-tabs")
-      require("telescope-tabs").setup({
-        close_tab_shortcut_i = "<C-d>",
-        close_tab_shortcut_n = "D",
-        show_preview = true,
-        entry_ordinal = function(tab_id, buffer_ids, file_names, file_paths, is_current)
-          return table.concat(file_names, " ")
-        end,
-        entry_formatter = function(tab_id, buffer_ids, file_names, file_paths, is_current)
-          local entry_string = table.concat(file_names, ", ")
-          return string.format("%d: %s%s", tab_id, entry_string, is_current and " <" or "")
-        end,
-      })
-    end,
-    dependencies = { "nvim-telescope/telescope.nvim" },
-  },
-  {
-    "nvim-treesitter/nvim-treesitter",
-    build = ":TSUpdate",
-    config = function()
-      local config = require("nvim-treesitter.configs")
-      config.setup({
-        auto_install = true,
-        highlight = { enable = true },
-        indent = { enable = true },
-      })
-    end,
-  },
-  {
-    "preservim/nerdtree",
   },
 
   {

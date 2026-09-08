@@ -1,32 +1,17 @@
 vim.cmd("set encoding=utf-8")
 vim.cmd("set fileencoding=utf-8")
 
-local builtin = require("telescope.builtin")
-vim.keymap.set('n', '<C-p>', builtin.find_files, { desc = "to find files" })
-vim.keymap.set('n', '<C-b>', builtin.buffers, { desc = "to find buffers" })
+-- local builtin = require("telescope.builtin")
+-- vim.keymap.set('n', '<C-p>', builtin.find_files, { desc = "to find files" })
+-- vim.keymap.set('n', '<C-b>', builtin.buffers, { desc = "to find buffers" })
 -- vim.keymap.set('n', '<C-t>', builtin.tabs, {desc = "to find tabs"})
 
-local config = require("nvim-treesitter.configs")
-config.setup({
-  ensure_installed = { "lua", "javascript", "python", "c", "cpp", "css", "markdown", "json", "html" },
-  indent = { enable = true },
-  highlight = {
-    enable = true,
-    disable = function(lang, buf)
-      local max_filesize = 100 * 1024 -- 100 KB
-      local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
-      if ok and stats and stats.size > max_filesize then
-        return true
-      end
-    end,
-  },
-})
+-- show telescope tab
+-- vim.keymap.set("n", "<c-t>", "<cmd>Telescope telescope-tabs list_tabs<cr>", { desc = "Show telescope tab" })
+-- vim.api.nvim_set_keymap('n', '<leader>b', ":lua require('config/telescope').my_buffer()<cr>", { noremap = true })
 
 -- load catppuccin
 vim.cmd.colorscheme "catppuccin-mocha"
-
--- language
-vim.cmd("lan mes ja_JP")
 
 -- with vim.cmd() I can use vim command in lua.
 -- line number
@@ -50,8 +35,8 @@ vim.cmd("set clipboard+=unnamedplus")
 
 -- general seting
 -- key map
--- vim.keymap.set('n', '<leader>n', '<cmd>Neotree toggle<cr>', {desc = 'toggle neotree'})
-vim.keymap.set('n', '<leader>n', '<cmd>NERDTreeToggle<cr>', { desc = 'toggle neotree' })
+vim.keymap.set('n', '<leader>n', '<cmd>Neotree toggle<cr>', {desc = 'toggle neotree'})
+-- vim.keymap.set('n', '<leader>n', '<cmd>NERDTreeToggle<cr>', { desc = 'toggle neotree' })
 
 
 -- buffers
@@ -106,9 +91,9 @@ vim.keymap.set("x", "*", function()
   vim.opt.hlsearch = true
 end)
 
+-- show diagnos
+vim.keymap.set("n", "<leader>d", vim.diagnostic.open_float)
 
--- show telescope tab
-vim.keymap.set("n", "<c-t>", "<cmd>Telescope telescope-tabs list_tabs<cr>", { desc = "Show telescope tab" })
-
-vim.api.nvim_set_keymap('n', '<leader>b', ":lua require('config/telescope').my_buffer()<cr>", { noremap = true })
-vim.cmd("autocmd VimEnter * if &filetype !=# 'gitcommit' | NERDTree | wincmd l | endif")
+-- let cursor stays its position after yank
+vim.keymap.set("v", "y", "ygv<Esc>", { desc = "Yank without cursor jump" })
+-- vim.cmd("autocmd VimEnter * if &filetype !=# 'gitcommit' | NERDTree | wincmd l | endif")
