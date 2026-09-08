@@ -94,7 +94,7 @@ vim.keymap.set("x", "*", function()
 end)
 
 -- show diagnos
-vim.keymap.set("n", "<leader>d", vim.diagnostic.open_float)
+-- vim.keymap.set("n", "<leader>d", vim.diagnostic.open_float)
 
 -- let cursor stays its position after yank
 vim.keymap.set("v", "y", "ygv<Esc>", { desc = "Yank without cursor jump" })
