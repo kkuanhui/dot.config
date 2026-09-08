@@ -12,22 +12,26 @@ return {
       popup_border_style = "NC",
       filesystem = {
         filtered_items = {
-          visible = true,
+          visible = false,
           hide_dotfiles = true,
           hide_gitignored = true,
         },
         window = {
           mappings = {
-            -- 💥 攔截 "/" 鍵：切回主視窗後爆破開啟 Telescope find_files 💥
+            ["o"] = { "toggle_node", nowait = true },
+            ["oc"] = "noop",
+            ["od"] = "noop",
+            ["og"] = "noop",
+            ["om"] = "noop",
+            ["on"] = "noop",
+            ["os"] = "noop",
             ["/"] = function(state)
               local node = state.tree:get_node()
               local path = node.path
               if node.type ~= "directory" then
                 path = vim.fs.dirname(path)
               end
-
               local neotree_win = vim.api.nvim_get_current_win()
-
               vim.schedule(function()
                 local target_win = nil
                 for _, win in ipairs(vim.api.nvim_list_wins()) do
@@ -39,7 +43,6 @@ return {
                     end
                   end
                 end
-
                 if target_win then
                   vim.api.nvim_set_current_win(target_win)
                 else
@@ -48,7 +51,6 @@ return {
                     vim.cmd("vsplit")
                   end
                 end
-
                 local opts = {
                   cwd = path,
                   prompt_title = "Find Files in: " .. vim.fs.basename(path),
@@ -61,7 +63,6 @@ return {
         },
       },
     })
-
     -- 🔍 popup（help 視窗等）裡把 "/" 還原成 Vim 原生搜尋
     vim.api.nvim_create_autocmd("FileType", {
       group = vim.api.nvim_create_augroup("NeoTreePopupSearch", { clear = true }),
@@ -75,7 +76,20 @@ return {
         end)
       end,
     })
-
+    vim.api.nvim_create_autocmd("FileType", {
+      group = vim.api.nvim_create_augroup("NeoTreeUnmapSort", { clear = true }),
+      pattern = "neo-tree",
+      callback = function(args)
+        vim.schedule(function()
+          if not vim.api.nvim_buf_is_valid(args.buf) then
+            return
+          end
+          for _, key in ipairs({ "oc", "od", "og", "om", "on", "os" }) do
+            pcall(vim.keymap.del, "n", key, { buffer = args.buf })
+          end
+        end)
+      end,
+    })
     -- 啟動 Neovim 時自動開啟 Neo-tree
     vim.api.nvim_create_autocmd("VimEnter", {
       command = "Neotree show",
