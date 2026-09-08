@@ -1,5 +1,7 @@
-vim.cmd("set encoding=utf-8")
-vim.cmd("set fileencoding=utf-8")
+-- 刪掉舊的 vim.cmd("set fileencoding=utf-8")
+-- 改成以下設定（若不需要可完全不寫，現代 Neovim 預設就是 UTF-8）：
+vim.opt.encoding = "utf-8"
+vim.opt.fileencodings = { "utf-8", "big5", "gbk", "latin1" }
 
 -- local builtin = require("telescope.builtin")
 -- vim.keymap.set('n', '<C-p>', builtin.find_files, { desc = "to find files" })
