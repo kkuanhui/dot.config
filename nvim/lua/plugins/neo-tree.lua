@@ -9,12 +9,12 @@ return {
   lazy = false,
   config = function()
     require("neo-tree").setup({
-      popup_border_style = "rounded",
+      popup_border_style = "NC",
       filesystem = {
         filtered_items = {
           visible = true,
-          hide_dotfiles = false,
-          hide_gitignored = false,
+          hide_dotfiles = true,
+          hide_gitignored = true,
         },
         window = {
           mappings = {
@@ -43,8 +43,6 @@ return {
                 if target_win then
                   vim.api.nvim_set_current_win(target_win)
                 else
-                  -- 只剩 neo-tree 一個視窗:絕對不能在這裡開 Telescope,
-                  -- 先切走、開一個新的編輯視窗
                   vim.cmd("wincmd l")
                   if vim.api.nvim_get_current_win() == neotree_win then
                     vim.cmd("vsplit")
@@ -57,12 +55,25 @@ return {
                 }
                 _G.__telescope_last_opts = opts
                 require("telescope.builtin").find_files(opts)
-
               end)
             end,
           },
         },
       },
+    })
+
+    -- 🔍 popup（help 視窗等）裡把 "/" 還原成 Vim 原生搜尋
+    vim.api.nvim_create_autocmd("FileType", {
+      group = vim.api.nvim_create_augroup("NeoTreePopupSearch", { clear = true }),
+      pattern = "neo-tree-popup",
+      callback = function(args)
+        vim.schedule(function()
+          if not vim.api.nvim_buf_is_valid(args.buf) then
+            return
+          end
+          pcall(vim.keymap.del, "n", "/", { buffer = args.buf })
+        end)
+      end,
     })
 
     -- 啟動 Neovim 時自動開啟 Neo-tree
