@@ -16,6 +16,8 @@ return {
           hide_dotfiles = true,
           hide_gitignored = true,
         },
+        enable_git_status = true,
+        enable_diagnostics = true,
         window = {
           mappings = {
             ["o"] = { "toggle_node", nowait = true },
@@ -25,44 +27,11 @@ return {
             ["om"] = "noop",
             ["on"] = "noop",
             ["os"] = "noop",
-            ["/"] = function(state)
-              local node = state.tree:get_node()
-              local path = node.path
-              if node.type ~= "directory" then
-                path = vim.fs.dirname(path)
-              end
-              local neotree_win = vim.api.nvim_get_current_win()
-              vim.schedule(function()
-                local target_win = nil
-                for _, win in ipairs(vim.api.nvim_list_wins()) do
-                  if win ~= neotree_win then
-                    local buf = vim.api.nvim_win_get_buf(win)
-                    if vim.bo[buf].filetype ~= "neo-tree" then
-                      target_win = win
-                      break
-                    end
-                  end
-                end
-                if target_win then
-                  vim.api.nvim_set_current_win(target_win)
-                else
-                  vim.cmd("wincmd l")
-                  if vim.api.nvim_get_current_win() == neotree_win then
-                    vim.cmd("vsplit")
-                  end
-                end
-                local opts = {
-                  cwd = path,
-                  prompt_title = "Find Files in: " .. vim.fs.basename(path),
-                }
-                _G.__telescope_last_opts = opts
-                require("telescope.builtin").find_files(opts)
-              end)
-            end,
           },
         },
       },
     })
+
     -- 🔍 popup（help 視窗等）裡把 "/" 還原成 Vim 原生搜尋
     vim.api.nvim_create_autocmd("FileType", {
       group = vim.api.nvim_create_augroup("NeoTreePopupSearch", { clear = true }),
@@ -76,6 +45,8 @@ return {
         end)
       end,
     })
+
+    -- 🔍 neo-tree 本體：刪掉 "/" 和排序前綴，"/" 交還給原生搜尋
     vim.api.nvim_create_autocmd("FileType", {
       group = vim.api.nvim_create_augroup("NeoTreeUnmapSort", { clear = true }),
       pattern = "neo-tree",
@@ -84,12 +55,38 @@ return {
           if not vim.api.nvim_buf_is_valid(args.buf) then
             return
           end
-          for _, key in ipairs({ "oc", "od", "og", "om", "on", "os" }) do
+          for _, key in ipairs({ "/", "oc", "od", "og", "om", "on", "os" }) do
             pcall(vim.keymap.del, "n", key, { buffer = args.buf })
           end
         end)
       end,
     })
+
+    -- 🚫 搜尋高亮不要外洩到其他 pane
+    local hl_group = vim.api.nvim_create_augroup("NeoTreeSearchIsolate", { clear = true })
+    local saved_hlsearch = nil
+
+    vim.api.nvim_create_autocmd("BufEnter", {
+      group = hl_group,
+      callback = function()
+        if vim.bo.filetype == "neo-tree" and saved_hlsearch == nil then
+          saved_hlsearch = vim.o.hlsearch
+          vim.o.hlsearch = false
+        end
+      end,
+    })
+
+    vim.api.nvim_create_autocmd("BufLeave", {
+      group = hl_group,
+      callback = function()
+        if vim.bo.filetype == "neo-tree" and saved_hlsearch ~= nil then
+          vim.o.hlsearch = saved_hlsearch
+          saved_hlsearch = nil
+          vim.cmd("nohlsearch")
+        end
+      end,
+    })
+
     -- 啟動 Neovim 時自動開啟 Neo-tree
     vim.api.nvim_create_autocmd("VimEnter", {
       command = "Neotree show",
